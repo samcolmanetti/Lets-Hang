@@ -47,6 +47,5 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng scranton = new LatLng(41.4090, -75.6624);
         mMap.addMarker(new MarkerOptions().position(scranton).title("Marker in Scranton"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(scranton));
-
     }
 }
