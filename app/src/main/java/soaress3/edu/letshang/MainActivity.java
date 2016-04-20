@@ -1,7 +1,9 @@
 package soaress3.edu.letshang;
 
-import android.support.v4.app.FragmentActivity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
+import android.support.v4.app.FragmentActivity;
 
 import com.firebase.client.Firebase;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -27,6 +29,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
 
