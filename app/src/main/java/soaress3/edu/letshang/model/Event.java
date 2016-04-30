@@ -1,12 +1,17 @@
 package soaress3.edu.letshang.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.firebase.client.ServerValue;
+
+import java.util.HashMap;
+
 /**
  * Created by luizr on 30/04/2016.
  */
 public class Event {
     long event_id;
-    String create_date;
-    String event_date;
+    HashMap<String, Object> create_date;
+    HashMap<String, Object> event_date;
     Double location_lat;
     Double location_long;
     Boolean public_event;
@@ -17,7 +22,7 @@ public class Event {
     public Event() {
     }
 
-    public Event(long event_id, String create_date, String event_date, Double location_lat, Double location_long, Boolean public_event, String user_id, String description, long chat_id) {
+    public Event(long event_id, HashMap<String, Object> create_date, HashMap<String, Object> event_date, Double location_lat, Double location_long, Boolean public_event, String user_id, String description, long chat_id) {
         this.event_id = event_id;
         this.create_date = create_date;
         this.event_date = event_date;
@@ -33,11 +38,17 @@ public class Event {
         return event_id;
     }
 
-    public String getCreate_date() {
-        return create_date;
+    public HashMap<String, Object> getCreate_date() {
+        if (create_date != null) {
+            return create_date;
+        }
+
+        HashMap<String, Object> dateCreatedObj = new HashMap<String, Object>();
+        dateCreatedObj.put("date", ServerValue.TIMESTAMP);
+        return dateCreatedObj;
     }
 
-    public String getEvent_date() {
+    public HashMap<String, Object> getEvent_date() {
         return event_date;
     }
 
@@ -63,5 +74,15 @@ public class Event {
 
     public long getChat_id() {
         return chat_id;
+    }
+
+    @JsonIgnore
+    public long getCreate_dateLong() {
+        return (long)create_date.get("date");
+    }
+
+    @JsonIgnore
+    public long getEvent_dateLong() {
+        return (long)event_date.get("date");
     }
 }
