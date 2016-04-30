@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthenticated(AuthData authData) {
                 onLoginSuccess();
+                //progressDialog.dismiss();
                 Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
             }
 
@@ -110,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                 // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
                 Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
-                //this.finish();
+                this.finish();
             }
         }
     }
@@ -123,7 +124,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-       // finish();
+        //finish();
+        Intent i = new Intent(this, MainActivity.class);
+        startActivity(i);
     }
 
     public void onLoginFailed() {

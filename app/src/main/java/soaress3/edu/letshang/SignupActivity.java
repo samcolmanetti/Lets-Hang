@@ -1,6 +1,7 @@
 package soaress3.edu.letshang;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -47,7 +48,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                finish();
+               finish();
             }
         });
     }
@@ -73,9 +74,11 @@ public class SignupActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
+        Toast.makeText(SignupActivity.this, "Creating user", Toast.LENGTH_SHORT).show();
         fbRef.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
                     @Override
                     public void onSuccess(Map<String, Object> stringObjectMap) {
+                        Toast.makeText(SignupActivity.this, "successfully signed up", Toast.LENGTH_SHORT).show();
                         onSignupSuccess();
                     }
 
@@ -106,7 +109,11 @@ public class SignupActivity extends AppCompatActivity {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
         Toast.makeText(SignupActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-        //finish();
+
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+
+        // go to login
     }
 
     public void onSignupFailed() {
