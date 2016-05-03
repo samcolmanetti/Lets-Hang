@@ -37,8 +37,8 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,8 +47,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" />
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login" />
         <activity
             android:name=".SignupActivity"
             android:label="@string/title_activity_signup"
