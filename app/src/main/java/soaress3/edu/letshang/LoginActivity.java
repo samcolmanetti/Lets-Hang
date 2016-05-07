@@ -87,11 +87,9 @@ public class LoginActivity extends AppCompatActivity implements
             }
         });
         /* Setup the Google API object to allow Google logins */
-        GoogleSignInOptions gso =
-                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestEmail()
-                        .requestScopes(new Scope(Scopes.DRIVE_APPFOLDER))
-                        .build();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
 
         /**
          * Build a GoogleApiClient with access to the Google Sign-In API and the
