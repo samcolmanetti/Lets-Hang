@@ -27,4 +27,9 @@
     <string name="google_error_cant_connect_to_api">Are you sure that you set up a project for your app?
         Check out : https://console.developers.google.com/project. Also make sure you have all the proper
     gradle dependencies</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

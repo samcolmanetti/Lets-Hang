@@ -26,13 +26,10 @@ import butterknife.ButterKnife;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.auth.api.signin.GoogleSignInStatusCodes;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 
@@ -145,7 +142,7 @@ public class LoginActivity extends AppCompatActivity implements
             if (resultCode == RESULT_OK) {
                 // By default we just finish the Activity and log them in automatically
 
-                //Intent i = new Intent(this, MainActivity.class);
+                //Intent i = new Intent(this, MapActivity.class);
                 //startActivity(i);
             }
         }
@@ -157,13 +154,13 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        // disable going back to the MainActivity
+        // disable going back to the MapActivity
         moveTaskToBack(true);
     }
 
     public void onLoginSuccess() {
         //_loginButton.setEnabled(true);
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, MapActivity.class);
         startActivity(i);
         finish();
     }
