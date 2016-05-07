@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "835061485594",
+    "project_id": "symmetric-flare-128419"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835061485594:android:fe00b28d5182eaa6",
+        "android_client_info": {
+          "package_name": "soaress3.edu.letshang"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835061485594-vaqror24ablsrsr1s49j5cvb5ib7tv5s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "soaress3.edu.letshang",
+            "certificate_hash": "39522E049123D144C2BFD5C3AD768037DB1CFCFF"
+          }
+        },
+        {
+          "client_id": "835061485594-94jtn73emv3vshjuv0qelv1ssugs2ij7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAREOhZKfsJqywG7dOX8X4cbM09IVYB_js"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
