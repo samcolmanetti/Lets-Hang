@@ -73,35 +73,20 @@ public class SignupActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own signup logic here.
         Toast.makeText(SignupActivity.this, "Creating user", Toast.LENGTH_SHORT).show();
         fbRef.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
-                    @Override
-                    public void onSuccess(Map<String, Object> stringObjectMap) {
-                        Toast.makeText(SignupActivity.this, "successfully signed up", Toast.LENGTH_SHORT).show();
-                        onSignupSuccess();
-                    }
+            @Override
+            public void onSuccess(Map<String, Object> stringObjectMap) {
+                Toast.makeText(SignupActivity.this, "successfully signed up", Toast.LENGTH_SHORT).show();
+                onSignupSuccess();
+            }
 
-                    @Override
-                    public void onError(FirebaseError firebaseError) {
-                        Toast.makeText(SignupActivity.this, "Sign up failed", Toast.LENGTH_SHORT).show();
-                        progressDialog.dismiss();
-                    }
-                });
-
-
-                /*new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
-                 */
-
+            @Override
+            public void onError(FirebaseError firebaseError) {
+                onSignupFailed();
+                progressDialog.dismiss();
+            }
+        });
     }
 
 
@@ -110,10 +95,9 @@ public class SignupActivity extends AppCompatActivity {
         setResult(RESULT_OK, null);
         Toast.makeText(SignupActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
 
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
-
         // go to login
+       // Intent i = new Intent(this, LoginActivity.class);
+        //startActivity(i);
     }
 
     public void onSignupFailed() {
@@ -130,21 +114,21 @@ public class SignupActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
+            _nameText.setError("At least 3 characters");
             valid = false;
         } else {
             _nameText.setError(null);
         }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("Enter a valid email address");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError("Between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
             _passwordText.setError(null);

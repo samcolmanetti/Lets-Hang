@@ -114,7 +114,7 @@ public class LoginActivity extends AppCompatActivity implements
         Log.d(TAG, "Login");
 
         if (!validate()) {
-            onLoginFailed();
+            onLoginFailed(-1);
             return;
         }
 
@@ -125,43 +125,30 @@ public class LoginActivity extends AppCompatActivity implements
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
-
         fbRef.authWithPassword(email, password, new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
                 onLoginSuccess();
-                //progressDialog.dismiss();
+                progressDialog.dismiss();
                 Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {
+                onLoginFailed(firebaseError.getCode());
                 progressDialog.dismiss();
-                Toast.makeText(LoginActivity.this, "Log in failed", Toast.LENGTH_SHORT).show();
             }
         });
-
-        /*new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);*/
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
                 // By default we just finish the Activity and log them in automatically
-                Toast.makeText(LoginActivity.this, "Logged in", Toast.LENGTH_SHORT).show();
-                this.finish();
+
+                //Intent i = new Intent(this, MainActivity.class);
+                //startActivity(i);
             }
         }
         if (requestCode == RC_GOOGLE_LOGIN) {
@@ -177,15 +164,25 @@ public class LoginActivity extends AppCompatActivity implements
     }
 
     public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
-        //finish();
+        //_loginButton.setEnabled(true);
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
+        finish();
     }
 
-    public void onLoginFailed() {
+    public void onLoginFailed(int e) {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
 
+        switch (e) {
+            case FirebaseError.INVALID_PASSWORD:
+                _passwordText.setError("Invalid password");
+                _emailText.setError(null);
+                break;
+            case FirebaseError.INVALID_EMAIL:
+                _emailText.setError("Invalid email");
+                _passwordText.setError(null);
+                break;
+        }
         _loginButton.setEnabled(true);
     }
 
@@ -196,14 +193,14 @@ public class LoginActivity extends AppCompatActivity implements
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("Enter a valid email address");
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError("Between 4 and 10 alphanumeric characters");
             valid = false;
         } else {
             _passwordText.setError(null);
