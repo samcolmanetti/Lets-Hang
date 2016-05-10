@@ -8,7 +8,7 @@ import java.util.Date;
 public class Profile {
     long profile_id;
     String user_id;
-    String birthday;
+    long age;
     String gender;
     String picture;
     String status;
@@ -16,10 +16,10 @@ public class Profile {
     public Profile() {
     }
 
-    public Profile(long profile_id, String user_id, String birthday, String gender, String picture, String status) {
+    public Profile(long profile_id, String user_id, long age, String gender, String picture, String status) {
         this.profile_id = profile_id;
         this.user_id = user_id;
-        this.birthday = birthday;
+        this.age = age;
         this.gender = gender;
         this.picture = picture;
         this.status = status;
@@ -33,8 +33,8 @@ public class Profile {
         return user_id;
     }
 
-    public String getBirthday() {
-        return birthday;
+    public long getAge() {
+        return age;
     }
 
     public String getGender() {

@@ -32,6 +32,25 @@
                 android:hint="Name" />
         </android.support.design.widget.TextInputLayout>
 
+        <!--  Age Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
+            <EditText android:id="@+id/input_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:hint="Age" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/inpuit_gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/gender" />
+
         <!-- Email Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

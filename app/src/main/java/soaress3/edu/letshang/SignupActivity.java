@@ -26,6 +26,7 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.input_name) EditText _nameText;
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_password) EditText _passwordText;
+    @Bind(R.id.input_age) EditText _ageText;
     @Bind(R.id.btn_signup) Button _signupButton;
     @Bind(R.id.link_login) TextView _loginLink;
 
@@ -72,6 +73,7 @@ public class SignupActivity extends AppCompatActivity {
         String name = _nameText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
+        String age = _ageText.getText().toString();
 
         Toast.makeText(SignupActivity.this, "Creating user", Toast.LENGTH_SHORT).show();
         fbRef.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
@@ -95,9 +97,8 @@ public class SignupActivity extends AppCompatActivity {
         setResult(RESULT_OK, null);
         Toast.makeText(SignupActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
 
-        // go to login
-       // Intent i = new Intent(this, LoginActivity.class);
-        //startActivity(i);
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
     }
 
     public void onSignupFailed() {
@@ -110,6 +111,7 @@ public class SignupActivity extends AppCompatActivity {
         boolean valid = true;
 
         String name = _nameText.getText().toString();
+        String age = _ageText.getText().toString();
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
