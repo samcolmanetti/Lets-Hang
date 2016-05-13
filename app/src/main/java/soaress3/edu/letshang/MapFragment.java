@@ -1,6 +1,6 @@
 package soaress3.edu.letshang;
 
-import android.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +10,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapFragment extends Fragment {
+public class MapFragment extends SupportMapFragment {
 
     MapView mMapView;
     private GoogleMap googleMap;
@@ -23,9 +25,8 @@ public class MapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // inflat and return the layout
-        View v = inflater.inflate(R.layout.fragment_map, container,
-                false);
+      /*  // inflat and return the layout
+
         mMapView = (MapView) v.findViewById(R.id.map);
         mMapView.onCreate(savedInstanceState);
 
@@ -35,9 +36,18 @@ public class MapFragment extends Fragment {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
-        googleMap = mMapView.getMap();
+        View v = inflater.inflate(R.layout.fragment_map, container,
+                false);
+
+        ((MainActivity) getActivity()).mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                googleMap = googleMap;
+            }
+        });
+
         // latitude and longitude
         double latitude = 17.385044;
         double longitude = 78.486671;

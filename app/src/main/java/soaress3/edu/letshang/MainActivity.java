@@ -1,15 +1,13 @@
 package soaress3.edu.letshang;
 
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.multidex.MultiDex;
-import android.app.FragmentTransaction;
-import android.view.View;
+import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +23,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private Firebase fbRef;
+    public MapFragment mapFragment;
     private String uid;
 
     @Override
@@ -49,13 +48,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        FragmentManager fm = getFragmentManager();
-        MapFragment mapFragment = (MapFragment) fm.findFragmentByTag("MAP");
+        FragmentManager fm = getSupportFragmentManager();
+        mapFragment = (MapFragment) fm.findFragmentByTag("MAP");
 
         if (mapFragment == null){
             mapFragment = new MapFragment();
 
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.frame_container, mapFragment);
             ft.addToBackStack("MAPS");
             ft.commit();
