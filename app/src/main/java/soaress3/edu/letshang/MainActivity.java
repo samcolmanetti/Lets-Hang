@@ -1,11 +1,15 @@
 package soaress3.edu.letshang;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
+
 import android.support.multidex.MultiDex;
-import android.support.v4.app.FragmentActivity;
+import android.app.FragmentTransaction;
+import android.view.View;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,32 +17,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-    private GoogleMap mMap;
     private Firebase fbRef;
     private String uid;
-
-    // refactor using this: http://developer.android.com/training/implementing-navigation/nav-drawer.html
-    // - mainly change the activity_map layout to use a framelayout
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Firebase.setAndroidContext(this);
@@ -49,7 +41,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onAuthStateChanged(AuthData authData) {
                 if (authData == null) {
-                    Intent i = new Intent(MapActivity.this, LoginActivity.class);
+                    Intent i = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(i);
                 } else {
                     uid = authData.getUid();
@@ -57,15 +49,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        FragmentManager fm = getFragmentManager();
+        MapFragment mapFragment = (MapFragment) fm.findFragmentByTag("MAP");
 
-        if (savedInstanceState == null){
-            mapFragment.setRetainInstance(true);
+        if (mapFragment == null){
+            mapFragment = new MapFragment();
+
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.frame_container, mapFragment);
+            ft.addToBackStack("MAPS");
+            ft.commit();
         }
-
-        mapFragment.getMapAsync(this);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -78,22 +72,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-
-        // Add a marker in Scranton and move the camera
-        LatLng scranton = new LatLng(41.4090, -75.6624);
-        mMap.addMarker(new MarkerOptions().position(scranton).title("Marker in Scranton"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(scranton));
-    }
-
-    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -101,6 +79,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -123,13 +114,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 }
