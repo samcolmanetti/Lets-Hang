@@ -1,13 +1,21 @@
 package soaress3.edu.letshang;
 
+import android.app.ActivityManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.Calendar;
+
+import butterknife.Bind;
 
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
@@ -25,11 +33,9 @@ public class DatePickerFragment extends DialogFragment
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
-        // Do something with the date chosen by the user
-    }
-
-    public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getActivity().getFragmentManager(), "datePicker");
+        month = month + 1;
+        if(getActivity().getClass() == SignupActivity.class) {
+            ((SignupActivity) getActivity())._birthday.setText(((Integer) month).toString() + "/" + ((Integer) day).toString() + "/" + ((Integer) year).toString());
+        }
     }
 }

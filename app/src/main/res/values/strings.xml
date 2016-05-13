@@ -37,4 +37,5 @@
         <item>Female</item>
         <item>Other</item>
     </string-array>
+    <string name="birthday">MM/DD/YYYY</string>
 </resources>

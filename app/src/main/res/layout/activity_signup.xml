@@ -32,21 +32,32 @@
                 android:hint="Name" />
         </android.support.design.widget.TextInputLayout>
 
-        <!--  Age Label -->
-        <android.support.design.widget.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_age"
-                android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <!-- Date Button -->
+            <Button
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:hint="Age" />
-        </android.support.design.widget.TextInputLayout>
+                android:onClick="showDatePickerDialog"
+                android:text="Choose your birthday"
+                android:background="@color/white"
+                android:textColor="@color/jumbo"/>
+
+            <TextView android:id="@+id/birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="16sp"
+                android:text="@string/birthday"
+                android:layout_marginLeft="12dp"
+                android:gravity="center_vertical"/>
+
+        </LinearLayout>
 
         <Spinner
-            android:id="@+id/inpuit_gender"
+            android:id="@+id/input_gender"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:entries="@array/gender" />

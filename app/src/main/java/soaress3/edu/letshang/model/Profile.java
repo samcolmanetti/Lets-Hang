@@ -1,40 +1,39 @@
 package soaress3.edu.letshang.model;
 
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by luizr on 30/04/2016.
  */
 public class Profile {
-    long profile_id;
-    String user_id;
-    long age;
+    String name;
+    String email;
+    String birthday;
     String gender;
     String picture;
-    String status;
 
     public Profile() {
     }
 
-    public Profile(long profile_id, String user_id, long age, String gender, String picture, String status) {
-        this.profile_id = profile_id;
-        this.user_id = user_id;
-        this.age = age;
+    public Profile(String name, String email, String birthday, String gender, String picture) {
+        this.name = name;
+        this.email = email;
+        this.birthday = birthday;
         this.gender = gender;
         this.picture = picture;
-        this.status = status;
     }
 
-    public long getProfile_id() {
-        return profile_id;
+    public String getName() {
+        return name;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getEmail() {
+        return email;
     }
 
-    public long getAge() {
-        return age;
+    public String getBirthday() {
+        return birthday;
     }
 
     public String getGender() {
@@ -43,9 +42,5 @@ public class Profile {
 
     public String getPicture() {
         return picture;
-    }
-
-    public String getStatus() {
-        return status;
     }
 }
