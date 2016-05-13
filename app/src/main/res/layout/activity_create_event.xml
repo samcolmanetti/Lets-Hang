@@ -13,98 +13,68 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/ic_location_history_24dp"
-            android:layout_width="wrap_content"
-            android:layout_height="72dp"
-            android:layout_marginBottom="24dp"
-            android:layout_gravity="center_horizontal" />
-
         <!--  Name Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_name"
+            <EditText android:id="@+id/input_name_event"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textCapWords"
                 android:hint="Name" />
         </android.support.design.widget.TextInputLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- Date Button -->
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:onClick="showDatePickerDialog"
+            android:text="Pick the date for the event"/>
 
-            <!-- Date Button -->
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="showDatePickerDialog"
-                android:text="Choose your birthday"
-                android:background="@color/white"
-                android:textColor="@color/jumbo"/>
-
-            <TextView android:id="@+id/birthday"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textSize="16sp"
-                android:text="@string/birthday"
-                android:layout_marginLeft="12dp"
-                android:gravity="center_vertical"/>
-
-        </LinearLayout>
-
-        <Spinner
-            android:id="@+id/input_gender"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/gender" />
-
-        <!-- Email Label -->
+        <!--  Address Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_email"
+            <EditText android:id="@+id/input_address_event"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="Email" />
+                android:inputType="textCapWords"
+                android:hint="Address" />
         </android.support.design.widget.TextInputLayout>
 
-        <!-- Password Label -->
+        <!--Public Button -->
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/publi_event"
+            android:text="Check it if it should be a public event"/>
+
+        <!--  Description Label -->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_password"
+            <EditText android:id="@+id/input_description_event"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:hint="Password"/>
+                android:inputType="textCapWords"
+                android:hint="Description" />
         </android.support.design.widget.TextInputLayout>
 
-        <!-- Signup Button -->
+        <!-- Create Button -->
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_signup"
+            android:id="@+id/btn_create_event"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:text="Create Account"/>
-
-        <TextView android:id="@+id/link_login"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:text="Already a member? Login"
-            android:gravity="center"
-            android:textSize="16dip"/>
+            android:text="Create Event"/>
 
     </LinearLayout>
 </ScrollView>

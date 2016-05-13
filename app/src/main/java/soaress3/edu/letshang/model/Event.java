@@ -10,6 +10,7 @@ import java.util.HashMap;
  */
 public class Event {
     long event_id;
+    String name;
     HashMap<String, Object> create_date;
     HashMap<String, Object> event_date;
     Double location_lat;
@@ -22,7 +23,8 @@ public class Event {
     public Event() {
     }
 
-    public Event(long event_id, HashMap<String, Object> create_date, HashMap<String, Object> event_date, Double location_lat, Double location_long, Boolean public_event, String user_id, String description, long chat_id) {
+    public Event(String name, long event_id, HashMap<String, Object> create_date, HashMap<String, Object> event_date, Double location_lat, Double location_long, Boolean public_event, String user_id, String description, long chat_id) {
+        this.name = name;
         this.event_id = event_id;
         this.create_date = create_date;
         this.event_date = event_date;
@@ -36,6 +38,10 @@ public class Event {
 
     public long getEvent_id() {
         return event_id;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public HashMap<String, Object> getCreate_date() {
