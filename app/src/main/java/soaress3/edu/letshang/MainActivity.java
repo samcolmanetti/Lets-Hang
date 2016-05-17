@@ -1,6 +1,6 @@
 package soaress3.edu.letshang;
 
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,13 +18,20 @@ import android.view.MenuItem;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
 
     private Firebase fbRef;
-    public MapFragment mapFragment;
     private String uid;
+    private SupportMapFragment sMapFragment;
+    private CreateEventFragment createEventFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +55,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        FragmentManager fm = getSupportFragmentManager();
-        mapFragment = (MapFragment) fm.findFragmentByTag("MAP");
-
-        if (mapFragment == null){
-            mapFragment = new MapFragment();
-
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.frame_container, mapFragment);
-            ft.addToBackStack("MAPS");
-            ft.commit();
-        }
+        sMapFragment = sMapFragment.newInstance();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -68,6 +65,17 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_map);
+
+        android.support.v4.app.FragmentManager sFm = getSupportFragmentManager();
+
+        if (savedInstanceState == null){
+            sFm.beginTransaction().add(R.id.map, sMapFragment);
+        }
+
+        sMapFragment.getMapAsync(this);
+
+
     }
 
     @Override
@@ -98,14 +106,28 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        android.support.v4.app.FragmentManager sFm = getSupportFragmentManager();
+
+
+        if (sMapFragment.isAdded()){
+            sFm.beginTransaction().hide(sMapFragment).commit();
+        }
 
         if (id == R.id.nav_map) {
+            if (!sMapFragment.isAdded()) {
+                sFm.beginTransaction().add(R.id.map, sMapFragment).commit();
+            } else {
+                sFm.beginTransaction().show(sMapFragment).commit();
+            }
 
-        }  else if (id == R.id.nav_create_event) {
-            Intent i = new Intent(this, CreateEventActivity.class);
-            startActivity(i);
+        } else if (id == R.id.nav_create_event) {
+            if (createEventFragment == null){
+                createEventFragment = new CreateEventFragment();
+            }
 
-        } else if (id == R.id.nav_logout){
+            sFm.beginTransaction().replace(R.id.content_frame, createEventFragment).commit();
+
+        } else if (id == R.id.nav_logout) {
             fbRef.unauth();
         } else if (id == R.id.nav_settings){
 
@@ -114,5 +136,12 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng scranton = new LatLng(41.4090, -75.6624);
+        googleMap.addMarker(new MarkerOptions().position(scranton).title("Marker in Scranton"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(scranton));
     }
 }

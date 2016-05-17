@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements
             public void onAuthenticated(AuthData authData) {
                 onLoginSuccess();
                 progressDialog.dismiss();
-                Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LoginActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -160,7 +160,7 @@ public class LoginActivity extends AppCompatActivity implements
 
     public void onLoginSuccess() {
         //_loginButton.setEnabled(true);
-        Intent i = new Intent(this, MapActivity.class);
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
     }
