@@ -55,15 +55,6 @@
             android:label="@string/title_activity_signup"
             android:theme="@style/AppTheme.Dark"
             android:windowSoftInputMode="stateHidden" />
-        <activity
-            android:name=".CreateEventFragment"
-            android:label="Create Event"
-            android:parentActivityName=".MapActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="soaress3.edu.letshang.MapActivity" />
-        </activity>
     </application>
 
 </manifest>
