@@ -75,8 +75,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         sMapFragment.getMapAsync(this);
-
-
     }
 
     @Override
@@ -141,6 +139,6 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         LatLng scranton = new LatLng(41.4090, -75.6624);
         googleMap.addMarker(new MarkerOptions().position(scranton).title("Marker in Scranton"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(scranton));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(scranton, 13));
     }
 }
