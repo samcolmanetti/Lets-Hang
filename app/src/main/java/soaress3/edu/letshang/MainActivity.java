@@ -1,12 +1,10 @@
 package soaress3.edu.letshang;
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.multidex.MultiDex;
-import android.support.v4.app.FragmentTransaction;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -55,7 +53,10 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        sMapFragment = sMapFragment.newInstance();
+        if (sMapFragment == null){
+            sMapFragment = sMapFragment.newInstance();
+            sMapFragment.setRetainInstance(true);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity
         android.support.v4.app.FragmentManager sFm = getSupportFragmentManager();
 
         if (savedInstanceState == null){
-            sFm.beginTransaction().add(R.id.map, sMapFragment);
+            sFm.beginTransaction().replace(R.id.map, sMapFragment).commit();
         }
 
         sMapFragment.getMapAsync(this);
