@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void onBackPressed() {
-        // disable going back to the MapActivity
+        // disable going back to the MainActivity
         moveTaskToBack(true);
     }
 

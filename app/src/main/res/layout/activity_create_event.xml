@@ -1,80 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:fitsSystemWindows="true">
 
-    <LinearLayout
-        android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:paddingTop="56dp"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp">
+
+    <!--  Name Label -->
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="56dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp">
-
-        <!--  Name Label -->
-        <android.support.design.widget.TextInputLayout
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <EditText android:id="@+id/input_name_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_name_event"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:hint="Name" />
-        </android.support.design.widget.TextInputLayout>
+            android:inputType="textCapWords"
+            android:hint="Name" />
+    </android.support.design.widget.TextInputLayout>
 
-        <!-- Date Button -->
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="showDatePickerDialog"
-            android:text="Pick the date for the event"/>
+    <!-- Date Button -->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showDatePickerDialog"
+        android:text="Pick the date for the event"/>
 
-        <!--  Address Label -->
-        <android.support.design.widget.TextInputLayout
+    <!--  Address Label -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <EditText android:id="@+id/input_address_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_address_event"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:hint="Address" />
-        </android.support.design.widget.TextInputLayout>
+            android:inputType="textCapWords"
+            android:hint="Address" />
+    </android.support.design.widget.TextInputLayout>
 
-        <!--Public Button -->
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/publi_event"
-            android:text="Check it if it should be a public event"/>
+    <!--Public Button -->
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/publi_event"
+        android:text="Check it if it should be a public event"/>
 
-        <!--  Description Label -->
-        <android.support.design.widget.TextInputLayout
+    <!--  Description Label -->
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+        <EditText android:id="@+id/input_description_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_description_event"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:hint="Description" />
-        </android.support.design.widget.TextInputLayout>
+            android:inputType="textCapWords"
+            android:hint="Description" />
+    </android.support.design.widget.TextInputLayout>
 
-        <!-- Create Button -->
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_create_event"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:padding="12dp"
-            android:text="Create Event"/>
+    <!-- Create Button -->
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_create_event"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:padding="12dp"
+        android:text="Create Event"/>
 
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>
