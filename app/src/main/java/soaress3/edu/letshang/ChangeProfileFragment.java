@@ -135,7 +135,7 @@ public class ChangeProfileFragment extends Fragment {
         birthdayText = _birthday.getText().toString();
         genderText = _gender.getSelectedItem().toString();
 
-        if (!nameText.equals(previousName) || !birthdayText.equals(previousBirthday) || !genderText.equals(previousGender) || !mBitmap.equals(previousBitmap)) {
+        if (!nameText.equals(previousName) || !birthdayText.equals(previousBirthday) || !genderText.equals(previousGender)) {
             if(!validate()) {
                 Toast.makeText(getActivity().getBaseContext(), "Change failed: name is not valid", Toast.LENGTH_LONG).show();
                 return;
@@ -146,12 +146,14 @@ public class ChangeProfileFragment extends Fragment {
             updatedProperties.put("birthday", birthdayText);
             updatedProperties.put("gender", genderText);
 
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            mBitmap.recycle();
-            byte[] byteArray = stream.toByteArray();
-            String imageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
-            updatedProperties.put("picture", imageFile);
+            if(mBitmap != null && !mBitmap.equals(previousBitmap)) {
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                mBitmap.recycle();
+                byte[] byteArray = stream.toByteArray();
+                String imageFile = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                updatedProperties.put("picture", imageFile);
+            }
 
             fbRef.updateChildren(updatedProperties);
             Toast.makeText(getActivity().getBaseContext(), "Profile changed!", Toast.LENGTH_LONG).show();
