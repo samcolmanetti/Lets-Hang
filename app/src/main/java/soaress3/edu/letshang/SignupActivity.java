@@ -149,10 +149,8 @@ public class SignupActivity extends AppCompatActivity {
     private void createUserInFirebaseHelper(String uid) {
 
         final Firebase userLocation = new Firebase(Constants.FIREBASE_URL_USERS).child(uid);
-        final CountDownLatch done = new CountDownLatch(1);
         /**
-         * See if there is already a user (for example, if they already logged in with an associated
-         * Google account.
+         * See if there is already a user
          */
         userLocation.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -224,6 +222,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
+        ((DatePickerFragment) newFragment).setContext("signup");
         newFragment.show(getFragmentManager(), "datePicker");
     }
 

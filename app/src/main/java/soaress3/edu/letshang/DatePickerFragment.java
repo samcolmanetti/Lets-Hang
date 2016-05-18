@@ -1,9 +1,11 @@
 package soaress3.edu.letshang;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.Fragment;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +22,12 @@ import butterknife.Bind;
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
+    public String context;
+
+    public void setContext(String context) {
+        this.context = context;
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker
@@ -34,8 +42,12 @@ public class DatePickerFragment extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         month = month + 1;
-        if(getActivity().getClass() == SignupActivity.class) {
+        if(context.equals("signup")) {
             ((SignupActivity) getActivity())._birthday.setText(((Integer) month).toString() + "/" + ((Integer) day).toString() + "/" + ((Integer) year).toString());
+        }
+        else if(context.equals("profile")) {
+            android.support.v4.app.Fragment frag = ((MainActivity) getActivity()).getsFm().findFragmentByTag("Profile");
+            ((TextView) frag.getView().findViewById(R.id.birthday)).setText(((Integer) month).toString() + "/" + ((Integer) day).toString() + "/" + ((Integer) year).toString());
         }
     }
 }

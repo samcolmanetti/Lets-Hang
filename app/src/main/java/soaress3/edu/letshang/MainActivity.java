@@ -1,11 +1,13 @@
 package soaress3.edu.letshang;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.multidex.MultiDex;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -30,6 +33,8 @@ public class MainActivity extends AppCompatActivity
     private String uid;
     private SupportMapFragment sMapFragment;
     private CreateEventFragment createEventFragment;
+    private ChangeProfileFragment changeProfileFragment;
+    private FragmentManager sFm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +110,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        android.support.v4.app.FragmentManager sFm = getSupportFragmentManager();
+        sFm = getSupportFragmentManager();
 
 
         if (sMapFragment.isAdded()){
@@ -128,6 +133,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
             fbRef.unauth();
+        } else if(id == R.id.nav_profile) {
+            if (changeProfileFragment == null){
+                changeProfileFragment = new ChangeProfileFragment();
+            }
+
+            sFm.beginTransaction().replace(R.id.content_frame, changeProfileFragment, "Profile").commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -140,5 +151,15 @@ public class MainActivity extends AppCompatActivity
         LatLng scranton = new LatLng(41.4090, -75.6624);
         googleMap.addMarker(new MarkerOptions().position(scranton).title("Marker in Scranton"));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(scranton, 13));
+    }
+
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        ((DatePickerFragment) newFragment).setContext("profile");
+        newFragment.show(getFragmentManager(), "datePicker");
+    }
+
+    public FragmentManager getsFm() {
+        return sFm;
     }
 }

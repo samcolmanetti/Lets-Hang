@@ -25,9 +25,11 @@
 
     <!-- Date Button -->
     <Button
+        android:id="@+id/date_event"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="showDatePickerDialog"
+        android:background="@color/white"
+        android:textColor="@color/jumbo"
         android:text="Pick the date for the event"/>
 
     <!--  Address Label -->
