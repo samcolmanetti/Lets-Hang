@@ -49,5 +49,9 @@ public class DatePickerFragment extends DialogFragment
             android.support.v4.app.Fragment frag = ((MainActivity) getActivity()).getsFm().findFragmentByTag("Profile");
             ((TextView) frag.getView().findViewById(R.id.birthday)).setText(((Integer) month).toString() + "/" + ((Integer) day).toString() + "/" + ((Integer) year).toString());
         }
+        else if(context.equals("event")) {
+            android.support.v4.app.Fragment frag = ((MainActivity) getActivity()).getsFm().findFragmentByTag("Event");
+            ((TextView) frag.getView().findViewById(R.id.event_date)).setText(((Integer) month).toString() + "/" + ((Integer) day).toString() + "/" + ((Integer) year).toString());
+        }
     }
 }

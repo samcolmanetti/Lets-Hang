@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity
                 createEventFragment = new CreateEventFragment();
             }
 
-            sFm.beginTransaction().replace(R.id.content_frame, createEventFragment).commit();
+            sFm.beginTransaction().replace(R.id.content_frame, createEventFragment, "Event").commit();
 
         } else if (id == R.id.nav_logout) {
             fbRef.unauth();
