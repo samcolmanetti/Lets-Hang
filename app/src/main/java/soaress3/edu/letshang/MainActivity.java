@@ -10,6 +10,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         Firebase.setAndroidContext(this);
 
         fbRef = new Firebase(Constants.FIREBASE_URL);
@@ -111,6 +113,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         sFm = getSupportFragmentManager();
+        ActionBar actionBar = getSupportActionBar();
 
 
         if (sMapFragment.isAdded()){
@@ -118,6 +121,10 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (id == R.id.nav_map) {
+            if (actionBar != null) {
+                actionBar.setTitle(R.string.title_fragment_map);
+            }
+
             if (!sMapFragment.isAdded()) {
                 sFm.beginTransaction().add(R.id.map, sMapFragment).commit();
             } else {
@@ -125,6 +132,10 @@ public class MainActivity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_create_event) {
+            if (actionBar != null) {
+                actionBar.setTitle(R.string.title_fragment_event);
+            }
+
             if (createEventFragment == null){
                 createEventFragment = new CreateEventFragment();
             }
@@ -134,6 +145,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_logout) {
             fbRef.unauth();
         } else if(id == R.id.nav_profile) {
+            if (actionBar != null){
+                actionBar.setTitle(R.string.title_fragment_profile);
+            }
             if (changeProfileFragment == null){
                 changeProfileFragment = new ChangeProfileFragment();
             }

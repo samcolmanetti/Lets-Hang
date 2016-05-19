@@ -137,12 +137,12 @@ public class ChangeProfileFragment extends Fragment {
 
         if (!nameText.equals(previousName) || !birthdayText.equals(previousBirthday) || !genderText.equals(previousGender)) {
             if(!validate()) {
-                Toast.makeText(getActivity().getBaseContext(), "Change failed: name is not valid", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity().getBaseContext(), "Change failed: eventNameEditText is not valid", Toast.LENGTH_LONG).show();
                 return;
             }
 
             HashMap<String, Object> updatedProperties = new HashMap<String, Object>();
-            updatedProperties.put("name", nameText);
+            updatedProperties.put("eventNameEditText", nameText);
             updatedProperties.put("birthday", birthdayText);
             updatedProperties.put("gender", genderText);
 

@@ -5,22 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:orientation="vertical"
-    android:paddingTop="56dp"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp">
+    android:orientation="vertical">
 
     <!--  Name Label -->
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
+        android:layout_height="wrap_content">
         <EditText android:id="@+id/input_name_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textCapWords"
-            android:hint="Name" />
+            android:layout_marginBottom="10dp"
+            android:hint="Event Name" />
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
@@ -33,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/pick_date"
-            android:text="Pick the date for the event"
+            android:text="Date"
             android:background="@color/white"
             android:textColor="@color/jumbo"/>
 
@@ -61,11 +57,26 @@
     </android.support.design.widget.TextInputLayout>
 
     <!--Public Button -->
-    <RadioButton
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/public_event"
-        android:text="Check it if it should be a public event"/>
+        android:orientation="horizontal"
+        android:id="@+id/rg_event_status">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rb_public_event"
+            android:text="Public"
+            android:checked="true"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rb_private_event"
+            android:layout_weight="1"
+            android:text="Private"/>
+
+    </RadioGroup>
 
     <!--  Description Label -->
     <android.support.design.widget.TextInputLayout

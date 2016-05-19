@@ -244,10 +244,6 @@ public class LoginActivity extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        /**
-         * An unresolvable error has occurred and Google APIs (including Sign-In) will not
-         * be available.
-         */
         progressDialog.dismiss();
         Toast.makeText(LoginActivity.this, result.toString(), Toast.LENGTH_SHORT).show();
     }

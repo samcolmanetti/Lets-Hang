@@ -1,139 +1,138 @@
 package soaress3.edu.letshang;
 
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 
 import soaress3.edu.letshang.model.Event;
-import soaress3.edu.letshang.model.Profile;
 
-public class CreateEventFragment extends Fragment {
+public class CreateEventFragment extends Fragment implements View.OnClickListener{
 
     private static final String TAG = "CreateEventFragment";
+    private ProgressDialog progressDialog;
     private Firebase fbRef;
-    EditText name;
-    TextView date;
-    EditText address;
-    RadioButton public_event;
-    EditText description;
-    Button create_event;
-    Button pick_date;
-    String nameText;
-    String dateText;
-    String descriptionText;
+    EditText eventNameEditText;
+    TextView dateTextView;
+    EditText addressEditText;
+    RadioGroup eventPrivacyRadioGroup;
+    EditText eventDescriptionEditText;
+    Button createEventButton;
+    Button pickDateButton;
     String uid;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_create_event, container, false);
 
-        name = (EditText) view.findViewById(R.id.input_name_event);
-        date = (TextView) view.findViewById(R.id.event_date);
-        address = (EditText) view.findViewById(R.id.input_address_event);
-        public_event = (RadioButton) view.findViewById(R.id.public_event);
-        description = (EditText) view.findViewById(R.id.input_description_event);
-        create_event = (Button) view.findViewById(R.id.btn_create_event);
-        pick_date = (Button) view.findViewById(R.id.pick_date);
+        eventNameEditText = (EditText) view.findViewById(R.id.input_name_event);
+        dateTextView = (TextView) view.findViewById(R.id.event_date);
+        addressEditText = (EditText) view.findViewById(R.id.input_address_event);
+        eventPrivacyRadioGroup = (RadioGroup) view.findViewById(R.id.rg_event_status);
+        eventDescriptionEditText = (EditText) view.findViewById(R.id.input_description_event);
+        createEventButton = (Button) view.findViewById(R.id.btn_create_event);
+        pickDateButton = (Button) view.findViewById(R.id.pick_date);
 
         fbRef = new Firebase(Constants.FIREBASE_URL);
         uid = fbRef.getAuth().getUid();
         fbRef = new Firebase(Constants.FIREBASE_URL_EVENTS);
 
-        pick_date.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                DialogFragment newFragment = new DatePickerFragment();
-                ((DatePickerFragment) newFragment).setContext("event");
-                newFragment.show(getActivity().getFragmentManager(), "datePicker");
-            }
-        });
-
-        create_event.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                createEvent(v);
-            }
-        });
+        pickDateButton.setOnClickListener(this);
+        createEventButton.setOnClickListener(this);
 
         return view;
     }
 
-    public void createEvent(View v) {
+    public void createEvent() {
+        String nameText = eventNameEditText.getText().toString();
+        String dateText = dateTextView.getText().toString();
+        String descriptionText = eventDescriptionEditText.getText().toString();
 
-        nameText = name.getText().toString();
-        dateText = date.getText().toString();
-        descriptionText = description.getText().toString();
-        final boolean itIsPublic = public_event.isChecked();
+        boolean isPublic = eventPrivacyRadioGroup.getCheckedRadioButtonId() == R.id.rb_public_event;
 
-        if(!validate()) {
-            Toast.makeText(getActivity().getBaseContext(), "Something was wrong.", Toast.LENGTH_LONG).show();
-            return;
-        }
+        if(!validate()) return;
 
-        fbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        Event newEvent = new Event(nameText, dateText, null, null, isPublic, uid, descriptionText);
+        fbRef.push().setValue(newEvent, new Firebase.CompletionListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                /* If there is no user, make one */
-                if (dataSnapshot.getValue() == null) {
-                    Event newEvent = new Event(nameText, dateText, null, null, itIsPublic, uid, descriptionText);
-                    fbRef.push().setValue(newEvent, new Firebase.CompletionListener() {
-                        @Override
-                        public void onComplete(FirebaseError error, Firebase ref) {
-                            if (error != null) {
-                                System.out.println("Data could not be saved. " + error.getMessage());
-                            } else {
-                                System.out.println("Data saved successfully.");
-                            }
-                        }
-                    });
+            public void onComplete(FirebaseError error, Firebase ref) {
+                if (error != null) {
+                    Toast.makeText(getActivity(), "Error creating event", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), "Event created", Toast.LENGTH_SHORT).show();
+                    clearForm();
                 }
             }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-                Log.d(TAG, "Error occured: " + firebaseError.getMessage());
-            }
         });
+    }
+
+    private void clearForm () {
+        eventNameEditText.setText("");
+        eventNameEditText.setError(null);
+
+        dateTextView.setText("MM/DD/YYYY");
+        addressEditText.setText("");
+        addressEditText.setError(null);
+
+        eventDescriptionEditText.setText("");
+        eventDescriptionEditText.setError(null);
+
+        eventPrivacyRadioGroup.clearCheck();
+        eventPrivacyRadioGroup.check(R.id.rb_public_event);
     }
 
     public boolean validate() {
         boolean valid = true;
 
+        String nameText = eventNameEditText.getText().toString();
+        String dateText = dateTextView.getText().toString();
+        String descriptionText = eventDescriptionEditText.getText().toString();
+
         if (nameText.isEmpty() || nameText.length() < 3) {
-            name.setError("At least 3 characters");
+            eventNameEditText.setError("At least 3 characters");
             valid = false;
         } else {
-            name.setError(null);
+            eventNameEditText.setError(null);
         }
 
         if (dateText.equals("MM/DD/YYYY")) {
-            date.setError("Enter the date of the event");
+            dateTextView.setError("Enter the date of the event");
             valid = false;
         } else {
-            date.setError(null);
+            dateTextView.setError(null);
         }
 
         if (descriptionText.isEmpty() || descriptionText.length() < 3) {
-            description.setError("At least 3 characters");
+            eventDescriptionEditText.setError("At least 3 characters");
             valid = false;
         } else {
-            description.setError(null);
+            eventDescriptionEditText.setError(null);
         }
 
         return valid;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.pick_date){
+            DialogFragment newFragment = new DatePickerFragment();
+            ((DatePickerFragment) newFragment).setContext("event");
+            newFragment.show(getActivity().getFragmentManager(), "datePicker");
+        } else if (v.getId() == R.id.btn_create_event) {
+            createEvent();
+        }
     }
 }

@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">Let\'s Hang</string>
-    <string name="title_activity_main">Map</string>
+    <string name="title_fragment_map">Map</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="title_fragment_profile">Profile</string>
+    <string name="title_fragment_event">Event</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
