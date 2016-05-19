@@ -173,7 +173,7 @@ public class LoginActivity extends AppCompatActivity implements
                 _passwordText.setError("Invalid password");
                 _emailText.setError(null);
                 break;
-            case FirebaseError.INVALID_EMAIL:
+            case FirebaseError.USER_DOES_NOT_EXIST:
                 _emailText.setError("Invalid email");
                 _passwordText.setError(null);
                 break;
@@ -307,7 +307,6 @@ public class LoginActivity extends AppCompatActivity implements
 
             @Override
             protected void onPostExecute(String token) {
-                progressDialog.dismiss();
                 if (token != null) {
                     /* Successfully got OAuth token, now login with Google */
                     loginWithGoogle(token);

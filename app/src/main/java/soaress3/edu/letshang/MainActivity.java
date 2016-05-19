@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            moveTaskToBack(true);
         }
     }
 
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
         sFm = getSupportFragmentManager();
 
 
-        if (sMapFragment.isAdded()){
+        if (sMapFragment.isAdded() && id != R.id.nav_map){
             sFm.beginTransaction().hide(sMapFragment).commit();
         }
 

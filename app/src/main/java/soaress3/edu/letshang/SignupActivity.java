@@ -118,7 +118,8 @@ public class SignupActivity extends AppCompatActivity {
         fbRef.createUser(mEmail, mPassword, new Firebase.ValueResultHandler<Map<String, Object>>() {
             @Override
             public void onSuccess(Map<String, Object> result) {
-                Toast.makeText(SignupActivity.this, "successfully signed up", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "successfully signed up", Toast.LENGTH_SHORT)
+                        .show();
                 onSignupSuccess(result);
             }
 
@@ -181,7 +182,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Sign up failed", Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
