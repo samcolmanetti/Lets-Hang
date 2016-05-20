@@ -1,32 +1,25 @@
 package soaress3.edu.letshang.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.firebase.client.ServerValue;
-
-import java.util.HashMap;
-
-/**
- * Created by luizr on 30/04/2016.
- */
 public class Event {
     String name;
-    String event_date;
-    Double location_lat;
-    Double location_long;
-    Boolean public_event;
-    String user_id;
+    String eventDate;
+    Double lat;
+    Double lng;
+    Boolean publicEvent;
+    String userId;
     String description;
 
     public Event() {
     }
 
-    public Event(String name, String event_date, Double location_lat, Double location_long, Boolean public_event, String user_id, String description) {
+    public Event(String name, String event_date, Double lat, Double lng,
+                 Boolean isPubicEvent, String user_id, String description) {
         this.name = name;
-        this.event_date = event_date;
-        this.location_lat = location_lat;
-        this.location_long = location_long;
-        this.public_event = public_event;
-        this.user_id = user_id;
+        this.eventDate = event_date;
+        this.lat = lat;
+        this.lng = lng;
+        this.publicEvent = isPubicEvent;
+        this.userId = user_id;
         this.description = description;
     }
 
@@ -34,24 +27,24 @@ public class Event {
         return name;
     }
 
-    public String getEvent_date() {
-        return event_date;
+    public String getEventDate() {
+        return eventDate;
     }
 
-    public Double getLocation_lat() {
-        return location_lat;
+    public Double getLat() {
+        return lat;
     }
 
-    public Double getLocation_long() {
-        return location_long;
+    public Double getLng() {
+        return lng;
     }
 
-    public Boolean getPublic_event() {
-        return public_event;
+    public Boolean getPublicEvent() {
+        return publicEvent;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUserId() {
+        return userId;
     }
 
     public String getDescription() {

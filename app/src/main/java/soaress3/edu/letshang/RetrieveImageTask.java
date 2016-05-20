@@ -24,7 +24,8 @@ public class RetrieveImageTask extends AsyncTask<Uri, Void, Bitmap> {
     protected Bitmap doInBackground(Uri[] params) {
         Bitmap bitmap = null;
         try {
-            bitmap = MediaStore.Images.Media.getBitmap(changeProfileFragmentWeakReference.get().getActivity().getContentResolver(), params[0]);
+            bitmap = MediaStore.Images.Media.getBitmap(changeProfileFragmentWeakReference.get()
+                    .getActivity().getContentResolver(), params[0]);
         } catch (IOException e) {
             e.printStackTrace();
         }

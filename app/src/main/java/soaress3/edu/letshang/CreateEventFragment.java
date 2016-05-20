@@ -4,6 +4,7 @@ import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,43 +16,52 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.model.LatLng;
 
 import soaress3.edu.letshang.model.Event;
 
-public class CreateEventFragment extends Fragment implements View.OnClickListener{
+public class CreateEventFragment extends Fragment implements View.OnClickListener , PlaceSelectionListener{
 
     private static final String TAG = "CreateEventFragment";
-    private ProgressDialog progressDialog;
+    private PlaceAutocompleteFragment autocompleteFragment;
     private Firebase fbRef;
-    EditText eventNameEditText;
-    TextView dateTextView;
-    EditText addressEditText;
-    RadioGroup eventPrivacyRadioGroup;
-    EditText eventDescriptionEditText;
-    Button createEventButton;
-    Button pickDateButton;
-    String uid;
+    private EditText eventNameEditText;
+    private TextView dateTextView;
+    private Place eventAddress;
+    private RadioGroup eventPrivacyRadioGroup;
+    private EditText eventDescriptionEditText;
+    private Button createEventButton;
+    private Button pickDateButton;
+    private String uId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.activity_create_event, container, false);
 
         eventNameEditText = (EditText) view.findViewById(R.id.input_name_event);
         dateTextView = (TextView) view.findViewById(R.id.event_date);
-        addressEditText = (EditText) view.findViewById(R.id.input_address_event);
         eventPrivacyRadioGroup = (RadioGroup) view.findViewById(R.id.rg_event_status);
         eventDescriptionEditText = (EditText) view.findViewById(R.id.input_description_event);
         createEventButton = (Button) view.findViewById(R.id.btn_create_event);
         pickDateButton = (Button) view.findViewById(R.id.pick_date);
 
         fbRef = new Firebase(Constants.FIREBASE_URL);
-        uid = fbRef.getAuth().getUid();
+        uId = fbRef.getAuth().getUid();
         fbRef = new Firebase(Constants.FIREBASE_URL_EVENTS);
 
         pickDateButton.setOnClickListener(this);
         createEventButton.setOnClickListener(this);
+
+        autocompleteFragment = (PlaceAutocompleteFragment) getActivity().getFragmentManager()
+                .findFragmentById(R.id.autocomplete_fragment);
+        autocompleteFragment.setHint("Event Address");
+        autocompleteFragment.setOnPlaceSelectedListener(this);
 
         return view;
     }
@@ -64,8 +74,11 @@ public class CreateEventFragment extends Fragment implements View.OnClickListene
         boolean isPublic = eventPrivacyRadioGroup.getCheckedRadioButtonId() == R.id.rb_public_event;
 
         if(!validate()) return;
+        LatLng address = eventAddress.getLatLng();
 
-        Event newEvent = new Event(nameText, dateText, null, null, isPublic, uid, descriptionText);
+        Event newEvent = new Event(nameText, dateText, address.latitude, address.longitude, isPublic,
+                uId, descriptionText);
+
         fbRef.push().setValue(newEvent, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError error, Firebase ref) {
@@ -84,8 +97,8 @@ public class CreateEventFragment extends Fragment implements View.OnClickListene
         eventNameEditText.setError(null);
 
         dateTextView.setText("MM/DD/YYYY");
-        addressEditText.setText("");
-        addressEditText.setError(null);
+        eventAddress = null;
+        autocompleteFragment.setText("");
 
         eventDescriptionEditText.setText("");
         eventDescriptionEditText.setError(null);
@@ -122,6 +135,11 @@ public class CreateEventFragment extends Fragment implements View.OnClickListene
             eventDescriptionEditText.setError(null);
         }
 
+        if (eventAddress == null){
+            Toast.makeText(getActivity(), "Address cannot be blank", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         return valid;
     }
 
@@ -134,5 +152,15 @@ public class CreateEventFragment extends Fragment implements View.OnClickListene
         } else if (v.getId() == R.id.btn_create_event) {
             createEvent();
         }
+    }
+
+    @Override
+    public void onPlaceSelected(Place place) {
+        this.eventAddress = place;
+    }
+
+    @Override
+    public void onError(Status status) {
+        // error with places autocomplete
     }
 }

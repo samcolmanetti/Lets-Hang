@@ -44,17 +44,19 @@
     </LinearLayout>
 
     <!--  Address Label -->
-    <android.support.design.widget.TextInputLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp">
-        <EditText android:id="@+id/input_address_event"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginBottom="@dimen/margin_medium">
+
+        <fragment
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textCapWords"
-            android:hint="Address" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_height="wrap_content" />
+
+    </android.support.v7.widget.CardView>
 
     <!--Public Button -->
     <RadioGroup
@@ -87,7 +89,6 @@
         <EditText android:id="@+id/input_description_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textCapWords"
             android:hint="Description" />
     </android.support.design.widget.TextInputLayout>
 

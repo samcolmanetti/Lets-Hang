@@ -9,8 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
         android:id="@+id/change_profile">
 
         <!--  Name Label -->
@@ -27,19 +25,34 @@
         </android.support.design.widget.TextInputLayout>
 
         <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView" />
-
-        <Button
-            android:id="@+id/btn_pick"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:textColor="@color/jumbo"
-            android:text="Add or change image" />
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/imageView" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_upload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/jumbo"
+                android:layout_weight="1"
+                android:text="Choose Picture" />
+
+            <Button
+                android:id="@+id/btn_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/jumbo"
+                android:layout_weight="1"
+                android:text="Take Picture" />
+        </LinearLayout>
 
         <Spinner
             android:id="@+id/gender"

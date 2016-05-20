@@ -9,7 +9,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,36 +19,36 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 
-import butterknife.Bind;
 import soaress3.edu.letshang.model.Profile;
 
-public class ChangeProfileFragment extends Fragment {
+public class ChangeProfileFragment extends Fragment implements View.OnClickListener {
 
     private Firebase fbRef;
-    EditText _name;
-    TextView _birthday;
-    Spinner _gender;
-    Button _submit;
-    String previousName;
-    String previousBirthday;
-    String previousGender;
-    String nameText;
-    String birthdayText;
-    String genderText;
-    Button _imagePicker;
-    ImageView imageView;
-    private int PICK_IMAGE_REQUEST = 1;
+    private EditText _name;
+    private TextView _birthday;
+    private Spinner _gender;
+    private Button _submit;
+    private String previousName;
+    private String previousBirthday;
+    private String previousGender;
+    private String nameText;
+    private String birthdayText;
+    private String genderText;
+    private Button uploadImageButton;
+    private Button takePictureButton;
+    private ImageView imageView;
+
+    static final int PICK_IMAGE_REQUEST = 1;
+    static final int REQUEST_IMAGE_CAPTURE = 2;
+
     View view;
     Bitmap mBitmap;
     Bitmap previousBitmap = null;
@@ -103,17 +102,11 @@ public class ChangeProfileFragment extends Fragment {
             }
         });
 
-        _imagePicker = (Button) view.findViewById(R.id.btn_pick);
-        _imagePicker.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                // Show only images, no videos or anything else
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                // Always show the chooser (if there are multiple options available)
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
-            }
-        });
+        uploadImageButton = (Button) view.findViewById(R.id.btn_upload);
+        uploadImageButton.setOnClickListener(this);
+
+        takePictureButton = (Button) view.findViewById(R.id.btn_camera);
+        takePictureButton.setOnClickListener(this);
 
         return view;
     }
@@ -177,17 +170,47 @@ public class ChangeProfileFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == getActivity().RESULT_OK &&
+                data != null && data.getData() != null) {
 
             Uri uri = data.getData();
 
             RetrieveImageTask rit = new RetrieveImageTask(this);
             rit.execute(uri);
         }
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == getActivity().RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            setBitmap(imageBitmap);
+        }
     }
 
     public void setBitmap(Bitmap bitmap) {
         imageView.setImageBitmap(bitmap);
         mBitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+
+        switch (id){
+            case R.id.btn_upload:
+                Intent intent = new Intent();
+                // Show only images, no videos or anything else
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                // Always show the chooser (if there are multiple options available)
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"),
+                        PICK_IMAGE_REQUEST);
+                break;
+            case R.id.btn_camera:
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+                break;
+        }
     }
 }
