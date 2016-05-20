@@ -43,6 +43,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import soaress3.edu.letshang.model.Event;
 
 public class MainActivity extends AppCompatActivity
@@ -236,15 +240,25 @@ public class MainActivity extends AppCompatActivity
         }
 
         fbRef.child(Constants.FIREBASE_LOCATION_EVENTS).addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot snapshot) {
+                final SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
                 for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
                     Event e = messageSnapshot.getValue(Event.class);
 
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.title(e.getName()).position(new LatLng(e.getLat(), e.getLng()));
+                    try {
+                        Date eDate = sdf.parse(e.getEventDate());
+                        if (eDate.getTime() > (new Date()).getTime()){
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.title(e.getName()).position(new LatLng(e.getLat(), e.getLng()));
 
-                    mGoogleMap.addMarker(markerOptions);
+                            mGoogleMap.addMarker(markerOptions);
+                        }
+                    } catch (ParseException e1) {
+                        Toast.makeText(MainActivity.this, "Date failed to parse", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }
 

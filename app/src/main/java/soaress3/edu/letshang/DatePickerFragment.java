@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import butterknife.Bind;
 
@@ -50,8 +53,11 @@ public class DatePickerFragment extends DialogFragment
             ((TextView) frag.getView().findViewById(R.id.birthday)).setText(((Integer) month).toString() + "/" + ((Integer) day).toString() + "/" + ((Integer) year).toString());
         }
         else if(context.equals("event")) {
+            Date date = new GregorianCalendar(year, month+1, day).getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+
             android.support.v4.app.Fragment frag = ((MainActivity) getActivity()).getsFm().findFragmentByTag("Event");
-            ((TextView) frag.getView().findViewById(R.id.event_date)).setText(((Integer) month).toString() + "/" + ((Integer) day).toString() + "/" + ((Integer) year).toString());
+            ((TextView) frag.getView().findViewById(R.id.event_date)).setText(sdf.format(date));
         }
     }
 }
