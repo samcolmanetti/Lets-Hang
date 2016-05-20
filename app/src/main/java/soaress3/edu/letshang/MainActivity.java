@@ -28,7 +28,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -38,6 +42,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import soaress3.edu.letshang.model.Event;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
@@ -205,14 +211,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        /*
-        LatLng scranton = new LatLng(41.4090, -75.6624);
-        googleMap.addMarker(new MarkerOptions().position(scranton).title("Marker in Scranton"));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(scranton, 13));
-        */
-
         mGoogleMap=googleMap;
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
 
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -221,18 +220,72 @@ public class MainActivity extends AppCompatActivity
                     == PackageManager.PERMISSION_GRANTED) {
                 buildGoogleApiClient();
                 mGoogleMap.setMyLocationEnabled(true);
-                populateMap();
             }
         }
         else {
             buildGoogleApiClient();
             mGoogleMap.setMyLocationEnabled(true);
-            populateMap();
         }
     }
 
     private void populateMap(){
 
+        if (mLastLocation != null) {
+            LatLng currentLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            mGoogleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
+        }
+
+        fbRef.child(Constants.FIREBASE_LOCATION_EVENTS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot messageSnapshot: snapshot.getChildren()) {
+                    Event e = messageSnapshot.getValue(Event.class);
+
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.title(e.getName()).position(new LatLng(e.getLat(), e.getLng()));
+
+                    mGoogleMap.addMarker(markerOptions);
+                }
+            }
+
+
+            @Override public void onCancelled(FirebaseError error) { }
+        });
+
+        /*
+        fbRef.child(Constants.FIREBASE_LOCATION_EVENTS).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Event e = dataSnapshot.getValue(Event.class);
+
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.title(e.getName()).position(new LatLng(e.getLat(), e.getLng()));
+
+                mGoogleMap.addMarker(markerOptions);
+                Toast.makeText(MainActivity.this, "child added", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+        */
     }
 
     public void showDatePickerDialog(View v) {
@@ -262,6 +315,7 @@ public class MainActivity extends AppCompatActivity
                 == PackageManager.PERMISSION_GRANTED) {
             mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         }
+        populateMap();
     }
 
     @Override
